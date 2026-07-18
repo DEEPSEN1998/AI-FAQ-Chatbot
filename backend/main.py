@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from backend.app.llm.ollama_service import call_ollama
+
+
 
 app = FastAPI(
     title="AI FAQ Chatbot API",
@@ -15,13 +18,15 @@ class ChatRequest(BaseModel):
 def home():
     return {
         "status": "success",
-        "message": "AI FAQ Chatbot Backend is Running 🚀"
+        "message": "Backend is Running 🚀"
     }
 
 
 @app.post("/chat")
 def chat(request: ChatRequest):
+    answer = call_ollama(request.message)
+    
     return {
-        "user_message": request.message,
-        "bot_reply": f"You said: {request.message}"
+        
+        "response": answer
     }
