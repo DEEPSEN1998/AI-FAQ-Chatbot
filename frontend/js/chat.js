@@ -1,21 +1,19 @@
-// =====================================
+// ================================
 // Send Button
-// =====================================
+// ================================
 
 sendBtn.addEventListener("click", sendMessage);
 
 
-// =====================================
+// ================================
 // Main Chat Function
-// =====================================
+// ================================
 
 async function sendMessage() {
 
     const message = messageInput.value.trim();
 
-    if (!message) {
-        return;
-    }
+    if (!message) return;
 
     // Show User Message
     addUserMessage(message);
@@ -23,24 +21,21 @@ async function sendMessage() {
     // Clear Input
     clearInput();
 
-    // Show Typing Animation
-    showTypingIndicator();
+    // Show Typing
+    showTyping();
 
     try {
 
-        // Send message to API
         const response = await askAI(message);
 
-        // Remove Typing
-        hideTypingIndicator();
+        hideTyping();
 
-        // Show AI Response
         addBotMessage(response);
 
     }
     catch (error) {
 
-        hideTypingIndicator();
+        hideTyping();
 
         addBotMessage("❌ Something went wrong.");
 

@@ -1,119 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI FAQ Assistant</title>
 
-    <title>AI FAQ Chatbot</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/light.css" id="theme-style">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- ================= Sidebar ================= -->
+<div class="app">
 
-    <aside class="sidebar">
+    <header class="topbar">
 
-        <div class="logo">
+        <div class="brand">
 
-            <h2>🤖 AI FAQ</h2>
+            <div class="logo">🤖</div>
 
-        </div>
+            <div>
 
-        <button class="new-chat-btn">
-            <i class="fa-solid fa-plus"></i>
-            New Chat
-        </button>
+                <h2>AI Assistant</h2>
 
-        <div class="history">
-
-            <!-- Future Chat History -->
-
-        </div>
-
-    </aside>
-
-    <!-- ================= Main ================= -->
-
-    <main class="chat-container">
-
-        <!-- Header -->
-
-        <header class="chat-header">
-
-            <h1>AI FAQ Chatbot</h1>
-
-            <button id="themeToggle">
-
-                <i class="fa-solid fa-moon"></i>
-
-            </button>
-
-        </header>
-
-        <!-- Chat Messages -->
-
-        <section class="chat-box" id="chatBox">
-
-            <!-- Bot Message -->
-
-            <div class="message bot">
-
-                <div class="avatar">
-                    🤖
-                </div>
-
-                <div class="bubble">
-
-                    Hello 👋<br>
-                    How can I help you today?
-
-                </div>
+                <p>Ask anything about our company</p>
 
             </div>
 
-        </section>
+        </div>
 
-        <!-- Input Area -->
+        <button id="themeToggle">
+            <i class="fa-solid fa-moon"></i>
+        </button>
 
-        <footer class="input-area">
+    </header>
 
-            <textarea
-                id="messageInput"
-                rows="1"
-                placeholder="Ask anything..."></textarea>
 
-            <button id="sendBtn">
+    <main id="chatBox" class="chat-box">
 
-                <i class="fa-solid fa-paper-plane"></i>
+        <div class="welcome">
 
-            </button>
+            <div class="welcome-logo">
 
-        </footer>
+                🤖
+
+            </div>
+
+            <h1>Welcome</h1>
+
+            <p>
+
+                Ask me anything about our services,
+                products or company.
+
+            </p>
+
+        </div>
 
     </main>
 
-    <!-- JavaScript -->
 
-    <script src="js/theme.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/chat.js"></script>
+    <footer class="input-area">
+
+        <textarea
+            id="messageInput"
+            rows="1"
+            placeholder="Type your message..."></textarea>
+
+        <button id="sendBtn">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+        </button>
+
+    </footer>
+
+</div>
+
+<script src="js/theme.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/api.js"></script>
+<script src="js/chat.js"></script>
 
 </body>
-
 </html>

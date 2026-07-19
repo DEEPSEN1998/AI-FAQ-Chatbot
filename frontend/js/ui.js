@@ -1,183 +1,130 @@
-// =====================================
-// UI Elements
-// =====================================
-
 const chatBox = document.getElementById("chatBox");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
+// ----------------------------
+// Escape HTML to prevent layout breaking / XSS
+// ----------------------------
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[tag] || tag)
+    );
+}
 
-// =====================================
-// Auto Resize Textarea
-// =====================================
-
+// ----------------------------
+// Auto resize textarea
+// ----------------------------
 messageInput.addEventListener("input", () => {
-
     messageInput.style.height = "auto";
     messageInput.style.height = messageInput.scrollHeight + "px";
-
 });
 
-
-// =====================================
-// Scroll Chat to Bottom
-// =====================================
-
+// ----------------------------
+// Smooth scroll to bottom
+// ----------------------------
 function scrollToBottom() {
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
+    chatBox.scrollTo({
+        top: chatBox.scrollHeight,
+        behavior: "smooth"
+    });
 }
 
-
-// =====================================
-// Clear Input
-// =====================================
-
-function clearInput() {
-
-    messageInput.value = "";
-
-    messageInput.style.height = "auto";
-
+// ----------------------------
+// Remove welcome screen
+// ----------------------------
+function removeWelcome() {
+    const welcome = document.querySelector(".welcome");
+    if (welcome) {
+        welcome.remove();
+    }
 }
 
+// ----------------------------
+// User Message
+// ----------------------------
+function addUserMessage(text) {
+    removeWelcome();
 
-// =====================================
-// Add User Message
-// =====================================
+    const message = document.createElement("div");
+    message.className = "message user";
+    message.innerHTML = `<div class="bubble">${escapeHTML(text)}</div>`;
 
-function addUserMessage(message) {
-
-    const html = `
-
-        <div class="message user">
-
-            <div class="bubble">
-
-                ${message}
-
-            </div>
-
-            <div class="avatar">
-
-                👤
-
-            </div>
-
-        </div>
-
-    `;
-
-    chatBox.insertAdjacentHTML("beforeend", html);
-
+    chatBox.appendChild(message);
     scrollToBottom();
-
 }
 
+// ----------------------------
+// AI Message
+// ----------------------------
+function addBotMessage(text) {
+    removeWelcome();
 
-// =====================================
-// Add Bot Message
-// =====================================
+    const message = document.createElement("div");
+    message.className = "message ai";
+    
+    // AI messages can contain HTML or markdown links, but we sanitize them minimally
+    // or just let them render. Since they come from backend LLM, we use innerHTML 
+    // but ensure standard formatting.
+    message.innerHTML = `<div class="bubble">${text}</div>`;
 
-function addBotMessage(message) {
-
-    const html = `
-
-        <div class="message bot">
-
-            <div class="avatar">
-
-                🤖
-
-            </div>
-
-            <div class="bubble">
-
-                ${message}
-
-            </div>
-
-        </div>
-
-    `;
-
-    chatBox.insertAdjacentHTML("beforeend", html);
-
+    chatBox.appendChild(message);
     scrollToBottom();
-
 }
 
-
-// =====================================
+// ----------------------------
 // Typing Indicator
-// =====================================
+// ----------------------------
+let typingElement = null;
 
-function showTypingIndicator() {
+function showTyping() {
+    removeWelcome();
 
-    const html = `
+    // Prevent duplicate typing indicators
+    if (document.getElementById("typing")) return;
 
-        <div class="message bot" id="typingIndicator">
-
-            <div class="avatar">
-
-                🤖
-
-            </div>
-
-            <div class="bubble">
-
-                <div class="typing">
-
-                    <span></span>
-                    <span></span>
-                    <span></span>
-
-                </div>
-
-            </div>
-
+    typingElement = document.createElement("div");
+    typingElement.className = "message ai";
+    typingElement.id = "typing";
+    typingElement.innerHTML = `
+        <div class="bubble">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-
     `;
 
-    chatBox.insertAdjacentHTML("beforeend", html);
-
+    chatBox.appendChild(typingElement);
     scrollToBottom();
-
 }
 
-
-// =====================================
-// Remove Typing Indicator
-// =====================================
-
-function hideTypingIndicator() {
-
-    const typing = document.getElementById("typingIndicator");
-
+function hideTyping() {
+    const typing = document.getElementById("typing");
     if (typing) {
-
         typing.remove();
-
     }
-
+    typingElement = null;
 }
 
+// ----------------------------
+// Clear Input
+// ----------------------------
+function clearInput() {
+    messageInput.value = "";
+    messageInput.style.height = "auto";
+}
 
-// =====================================
-// Enter to Send
-// Shift + Enter = New Line
-// =====================================
-
-messageInput.addEventListener("keydown", (event) => {
-
-    if (event.key === "Enter" && !event.shiftKey) {
-
-        event.preventDefault();
-
+// ----------------------------
+// Enter Key handling (Submit on enter, new line on shift+enter)
+// ----------------------------
+messageInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
         sendBtn.click();
-
     }
-
 });
