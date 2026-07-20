@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from backend.app.llm.ollama_service import call_ollama
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.app.api.chat import router as chat_router
 
 app = FastAPI(
     title="AI FAQ Chatbot API",
@@ -18,8 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class ChatRequest(BaseModel):
-    message: str
+app.include_router(chat_router)
 
 
 @app.get("/")
@@ -27,14 +25,4 @@ def home():
     return {
         "status": "success",
         "message": "Backend is Running 🚀"
-    }
-
-
-@app.post("/chat")
-def chat(request: ChatRequest):
-    answer = call_ollama(request.message)
-    
-    return {
-        
-        "response": answer
     }
