@@ -1,7 +1,7 @@
 from langchain_chroma import Chroma
 
-from app.config import VECTOR_DB_DIR
-from app.rag.embeddings import get_embeddings
+from backend.app.config import VECTOR_DB_DIR
+from backend.app.rag.embeddings import get_embeddings
 
 
 def get_vector_store():
