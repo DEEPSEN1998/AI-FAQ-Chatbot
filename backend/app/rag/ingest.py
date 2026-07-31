@@ -1,6 +1,6 @@
-from app.rag.loader import load_documents
-from app.rag.splitter import split_documents
-from app.rag.vector_store import get_vector_store
+from backend.app.rag.loader import load_documents
+from backend.app.rag.splitter import split_documents
+from backend.app.rag.vector_store import get_vector_store
 
 
 def ingest_documents(reset_db=True):

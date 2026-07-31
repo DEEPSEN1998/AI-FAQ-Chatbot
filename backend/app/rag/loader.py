@@ -4,7 +4,7 @@ from langchain_community.document_loaders import (
     Docx2txtLoader,
 )
 
-from app.config import KNOWLEDGE_DIR
+from backend.app.config import KNOWLEDGE_DIR
 
 
 def load_documents():
