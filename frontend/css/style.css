@@ -373,3 +373,51 @@ html, body {
         margin-bottom: 16px;
     }
 }
+
+/* ================= CONTROLS & DROPDOWNS ================= */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.select-group label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-muted, #718096);
+}
+
+.dropdown {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid var(--border, #e2e8f0);
+    background: var(--surface, #ffffff);
+    color: var(--text, #1a202c);
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.dropdown:focus {
+    border-color: var(--primary, #3182ce);
+}
+
+/* ================= MODEL BADGE ================= */
+.model-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted, #718096);
+    margin-bottom: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.85;
+}

@@ -1,6 +1,7 @@
 const chatBox = document.getElementById("chatBox");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
+const modelSelect = document.getElementById("modelSelect");
 
 // ----------------------------
 // Escape HTML to prevent layout breaking / XSS
@@ -60,18 +61,52 @@ function addUserMessage(text) {
 }
 
 // ----------------------------
-// AI Message
+// Streaming AI Message with Model Badge
 // ----------------------------
-function addBotMessage(text) {
+function addBotStreamBubble(modelDisplayName, category = "Local") {
     removeWelcome();
+
+    const icon = category === "Cloud" ? "☁️" : "🟢";
+    const badgeText = `${icon} ${modelDisplayName}`;
 
     const message = document.createElement("div");
     message.className = "message ai";
-    
-    // AI messages can contain HTML or markdown links, but we sanitize them minimally
-    // or just let them render. Since they come from backend LLM, we use innerHTML 
-    // but ensure standard formatting.
-    message.innerHTML = `<div class="bubble">${text}</div>`;
+
+    message.innerHTML = `
+        <div class="model-badge">${escapeHTML(badgeText)}</div>
+        <div class="bubble stream-bubble"></div>
+    `;
+
+    chatBox.appendChild(message);
+    scrollToBottom();
+
+    return message.querySelector(".stream-bubble");
+}
+
+// ----------------------------
+// Append Stream Token
+// ----------------------------
+function appendStreamToken(bubbleElement, token) {
+    if (!bubbleElement) return;
+    bubbleElement.textContent += token;
+    scrollToBottom();
+}
+
+// ----------------------------
+// Static AI Message
+// ----------------------------
+function addBotMessage(text, modelDisplayName = "", category = "Local") {
+    removeWelcome();
+
+    const icon = category === "Cloud" ? "☁️" : "🟢";
+    const badgeHtml = modelDisplayName ? `<div class="model-badge">${icon} ${escapeHTML(modelDisplayName)}</div>` : "";
+
+    const message = document.createElement("div");
+    message.className = "message ai";
+    message.innerHTML = `
+        ${badgeHtml}
+        <div class="bubble">${text}</div>
+    `;
 
     chatBox.appendChild(message);
     scrollToBottom();
@@ -80,15 +115,11 @@ function addBotMessage(text) {
 // ----------------------------
 // Typing Indicator
 // ----------------------------
-let typingElement = null;
-
 function showTyping() {
     removeWelcome();
-
-    // Prevent duplicate typing indicators
     if (document.getElementById("typing")) return;
 
-    typingElement = document.createElement("div");
+    const typingElement = document.createElement("div");
     typingElement.className = "message ai";
     typingElement.id = "typing";
     typingElement.innerHTML = `
@@ -108,7 +139,6 @@ function hideTyping() {
     if (typing) {
         typing.remove();
     }
-    typingElement = null;
 }
 
 // ----------------------------
@@ -120,7 +150,7 @@ function clearInput() {
 }
 
 // ----------------------------
-// Enter Key handling (Submit on enter, new line on shift+enter)
+// Enter Key handling
 // ----------------------------
 messageInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {

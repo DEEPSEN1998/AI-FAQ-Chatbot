@@ -4,19 +4,13 @@ from langchain_core.documents import Document
 
 class PromptBuilder:
     """
-    RAG Prompt Builder with Section Isolation and Source Citation directives.
+    RAG Prompt Builder for K8ight Web Services AI Assistant.
 
     Follows SOLID principles:
     - Single Responsibility: Formats system rules, context provenance, history, and questions into structured prompts.
     """
 
     def __init__(self, system_role: str = "K8ight Web Services"):
-        """
-        Initialize PromptBuilder.
-
-        Args:
-            system_role (str): Domain role description.
-        """
         self.system_role = system_role
 
     def build_prompt(
@@ -26,15 +20,7 @@ class PromptBuilder:
         question: str,
     ) -> str:
         """
-        Build formatted RAG prompt with clear section boundaries and source citations.
-
-        Args:
-            history (List[Dict[str, str]]): List of conversation messages containing 'role' and 'content'.
-            documents (List[Document]): Context documents with metadata.
-            question (str): Current user question.
-
-        Returns:
-            str: Prompt text.
+        Build clean RAG prompt grounding answer in retrieved company context without exposing internal metadata or raw citations to the end user.
         """
         formatted_context_blocks = []
         for idx, doc in enumerate(documents, start=1):
@@ -47,7 +33,7 @@ class PromptBuilder:
             block = (
                 f"--- [CONTEXT CHUNK {idx}] ---\n"
                 f"Source File: {source_file}\n"
-                f"Page Number: {page_number}\n"
+                f"Page: {page_number}\n"
                 f"Section: {section_name}\n"
                 f"Chunk ID: {chunk_id}\n\n"
                 f"{doc.page_content.strip()}"
@@ -72,17 +58,19 @@ class PromptBuilder:
         )
 
         prompt = f"""
-You are the official AI assistant for {self.system_role}.
+You are the official AI Assistant of {self.system_role}.
 
-Your primary responsibility is to answer questions about the company accurately using ONLY the provided COMPANY CONTEXT below.
+Your goal is to answer user inquiries clearly, accurately, and professionally based STRICTLY on the provided COMPANY CONTEXT below.
 
 ==================================================
-CRITICAL RULES & BOUNDARIES
+CRITICAL SYSTEM INSTRUCTIONS
 ==================================================
-1. Base your answer STRICTLY on the provided COMPANY CONTEXT. Never invent or extrapolate facts.
-2. SECTION & PERSON ISOLATION: Never mix facts, roles, or skills from different individuals or different document sections. If the query asks about a specific person or section, use ONLY information explicitly belonging to that person or section.
-3. If the answer cannot be determined from the provided context, state politely: "I do not have access to that information in our company knowledge base."
-
+1. IDENTITY: You are the AI Assistant of {self.system_role}. Never state or imply that you are Qwen, Llama, ChatGPT, OpenAI, or any underlying model architecture.
+2. GROUNDING & ACCURACY: Base your response ONLY on the provided COMPANY CONTEXT. Never invent, speculate, or use external knowledge.
+3. NO RAW CITATIONS IN TEXT: Do not print raw document names, page numbers, or "Source:" metadata blocks in your final text. Keep answers natural, polite, and conversational.
+4. SECTION & PERSON ISOLATION: Do not mix skills, projects, or background between different individuals or separate sections.
+5. FALLBACK RESPONSE: If the answer cannot be found in the provided context, answer politely:
+   "I couldn't find that information in our company documents."
 
 ==================================================
 COMPANY CONTEXT
@@ -95,12 +83,12 @@ CONVERSATION HISTORY
 {conversation_text}
 
 ==================================================
-CURRENT QUESTION
+USER QUESTION
 ==================================================
 {question}
 
 ==================================================
-ANSWER (With Source Citation at the end):
+CONVERSATIONAL ANSWER:
 ==================================================
 """
         return prompt.strip()

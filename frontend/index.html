@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI FAQ Assistant</title>
+    <title>AI FAQ Assistant | K8ight Web Services</title>
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/light.css" id="theme-style">
@@ -23,22 +23,26 @@
     <header class="topbar">
 
         <div class="brand">
-
             <div class="logo">🤖</div>
-
             <div>
-
                 <h2>AI Assistant</h2>
-
-                <p>Ask anything about our company</p>
-
+                <p>K8ight Web Services Knowledge Base</p>
             </div>
-
         </div>
 
-        <button id="themeToggle">
-            <i class="fa-solid fa-moon"></i>
-        </button>
+        <!-- Model Selector Control (Provider hidden) -->
+        <div class="controls">
+            <div class="select-group">
+                <label for="modelSelect"><i class="fa-solid fa-microchip"></i> Model</label>
+                <select id="modelSelect" class="dropdown">
+                    <option value="qwen2.5:3b">Loading Models...</option>
+                </select>
+            </div>
+
+            <button id="themeToggle" title="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
 
     </header>
 
@@ -48,18 +52,13 @@
         <div class="welcome">
 
             <div class="welcome-logo">
-
                 🤖
-
             </div>
 
             <h1>Welcome</h1>
 
             <p>
-
-                Ask me anything about our services,
-                products or company.
-
+                Ask me anything about our company, services, team, portfolio, or technology stack.
             </p>
 
         </div>
