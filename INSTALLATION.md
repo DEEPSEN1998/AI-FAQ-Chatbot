@@ -129,10 +129,20 @@ pytest
 1. Create and configure `.env` as described above.
 2. Build the image and create the production vector index:
 
+### Option A: Using Docker Compose
 ```bash
 docker compose build
 docker compose run --rm faq-assistant python -m backend.ingest --reset
 docker compose up -d
+```
+
+### Option B: Using Standalone Docker CLI (Windows CMD)
+```cmd
+# 1. Run knowledge ingestion
+docker run --rm -v "%cd%\data:/app/data" --env-file .env ai-faq-chatbot python -m backend.ingest --reset
+
+# 2. Run the server container with port and data persistent volume
+docker run -p 8000:8000 -v "%cd%\data:/app/data" --env-file .env ai-faq-chatbot
 ```
 
 The persistent `data/` directory contains:

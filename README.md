@@ -230,22 +230,94 @@ To update or expand your chatbot's knowledge:
 
 ## 🐳 Docker Deployment
 
-Deploy the assistant effortlessly using Docker Compose with persistent data mounts:
+Deploy the assistant in a lightweight, CPU-optimized containerized environment using **Docker Compose** or **Docker CLI**.
 
-```bash
-# 1. Build Docker image
-docker compose build
+### Prerequisites
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/macOS) or Docker Engine (Linux).
+- Create a `.env` file from `.env.example` and set your `NVIDIA_API_KEY`.
 
-# 2. Run initial document ingestion inside container
-docker compose run --rm faq-assistant python -m backend.ingest --reset
+---
 
-# 3. Start containerized application in detached mode
-docker compose up -d
-```
+### Option A: Using Docker Compose (Recommended)
 
-The persistent container state will be stored safely under `data/`:
-- `data/chroma/` – Vector storage
-- `data/app.db` – Lead capture database
+1. **Build the CPU-Optimized Image**
+   ```bash
+   docker compose build
+   ```
+   > 💡 *Note: The build uses a multi-stage CPU-only PyTorch setup to keep the image lightweight (~1.2 GB).*
+
+2. **Run Knowledge Base Ingestion**
+   Ingest documents from `knowledge/` into the persistent vector store inside the container:
+   ```bash
+   docker compose run --rm faq-assistant python -m backend.ingest --reset
+   ```
+
+3. **Start the Application**
+   ```bash
+   docker compose up -d
+   ```
+
+4. **Access the Chatbot**
+   Open your browser and navigate to: **[http://localhost:8000](http://localhost:8000)**
+
+5. **Useful Docker Compose Commands**
+   ```bash
+   # View live application logs
+   docker compose logs -f
+
+   # Check container status
+   docker compose ps
+
+   # Stop container
+   docker compose down
+   ```
+
+---
+
+### Option B: Using Standalone Docker CLI
+
+If you prefer building and running directly with Docker CLI commands:
+
+1. **Build the Docker Image**
+   ```bash
+   docker build -t ai-faq-chatbot .
+   ```
+
+2. **Run Knowledge Ingestion**
+   ```bash
+   # Windows (Command Prompt - cmd)
+   docker run --rm -v "%cd%\data:/app/data" --env-file .env ai-faq-chatbot python -m backend.ingest --reset
+
+   # Windows (PowerShell)
+   docker run --rm -v "${PWD}/data:/app/data" --env-file .env ai-faq-chatbot python -m backend.ingest --reset
+
+   # macOS / Linux
+   docker run --rm -v "$(pwd)/data:/app/data" --env-file .env ai-faq-chatbot python -m backend.ingest --reset
+   ```
+
+3. **Run the Container**
+   ```bash
+   # Windows (Command Prompt - cmd)
+   docker run -p 8000:8000 -v "%cd%\data:/app/data" --env-file .env ai-faq-chatbot
+
+   # Windows (PowerShell)
+   docker run -d -p 8000:8000 -v "${PWD}/data:/app/data" --env-file .env --name chatbot ai-faq-chatbot
+
+   # macOS / Linux
+   docker run -d -p 8000:8000 -v "$(pwd)/data:/app/data" --env-file .env --name chatbot ai-faq-chatbot
+   ```
+
+4. **Stop & Remove Container**
+   ```bash
+   docker stop chatbot && docker rm chatbot
+   ```
+
+---
+
+### 💾 Persistent Data Mounts
+The host directory `./data` is automatically mounted to `/app/data` inside the container:
+- `data/chroma/` – Vector database indices
+- `data/app.db` – Captured customer leads SQLite database
 
 ---
 
