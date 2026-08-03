@@ -1,0 +1,11 @@
+.git
+.env
+venv
+.venv
+__pycache__
+*.py[cod]
+data
+vector_db
+docs
+debug_pipeline.py
+run_ingest_and_evaluate.py

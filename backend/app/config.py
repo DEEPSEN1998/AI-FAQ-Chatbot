@@ -1,79 +1,53 @@
+"""Central configuration loaded from environment variables.
+
+Only this module reads environment variables. Keeping configuration in one
+place makes local development and container deployment behave the same way.
+"""
+
 import os
-import sys
 from pathlib import Path
+
 from dotenv import load_dotenv
 
-# Base Paths
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-BACKEND_DIR = Path(__file__).resolve().parents[1]
-
-# Prioritize backend/.env, fallback to project root .env
-ENV_FILE = BACKEND_DIR / ".env"
+# The project-root .env is the documented location. The backend/.env fallback
+# preserves compatibility with the previous project layout during migration.
+ENV_FILE = PROJECT_ROOT / ".env"
 if not ENV_FILE.exists():
-    ENV_FILE = PROJECT_ROOT / ".env"
+    legacy_env_file = PROJECT_ROOT / "backend" / ".env"
+    ENV_FILE = legacy_env_file if legacy_env_file.exists() else ENV_FILE
+load_dotenv(ENV_FILE)
 
-print(f"🔍 [CONFIG] Resolved .env path: {ENV_FILE.resolve()}")
 
-if ENV_FILE.exists():
-    load_dotenv(dotenv_path=ENV_FILE, override=True)
-    print(f"✅ [CONFIG] Successfully loaded environment from: {ENV_FILE}")
-else:
-    print(f"⚠️ [CONFIG] Environment file not found at: {ENV_FILE}")
+def _csv_setting(name: str, default: str) -> list[str]:
+    """Return a comma-separated environment setting as a clean list."""
+    return [item.strip() for item in os.getenv(name, default).split(",") if item.strip()]
 
+
+# App settings
+APP_NAME = os.getenv("APP_NAME", "K8ight AI Chat Bot Assistant")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development").lower()
+DEBUG = ENVIRONMENT == "development"
+ALLOWED_ORIGINS = _csv_setting("ALLOWED_ORIGINS", "http://localhost:8000")
+ALLOWED_HOSTS = _csv_setting("ALLOWED_HOSTS", "localhost,127.0.0.1")
+
+# Generated runtime data is deliberately outside source code and not committed.
+DATA_DIR = Path(os.getenv("DATA_DIR", PROJECT_ROOT / "data"))
+CHROMA_DIR = DATA_DIR / "chroma"
+SQLITE_PATH = DATA_DIR / "app.db"
 KNOWLEDGE_DIR = PROJECT_ROOT / "knowledge"
-VECTOR_DB_DIR = PROJECT_ROOT / "vector_db"
-UPLOAD_DIR = PROJECT_ROOT / "uploads"
 
-# Knowledge Base Configurations
-KB_VERSION: str = "v1.0.0"
+# NVIDIA NIM settings. The same API key is used for chat and embeddings.
+NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY", "").strip()
+NVIDIA_BASE_URL = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1").rstrip("/")
+NVIDIA_CHAT_MODEL = os.getenv("NVIDIA_CHAT_MODEL", "meta/llama-3.1-8b-instruct")
+NVIDIA_EMBEDDING_MODEL = os.getenv("NVIDIA_EMBEDDING_MODEL", "nvidia/nv-embedqa-e5-v5")
+NVIDIA_TIMEOUT_SECONDS = float(os.getenv("NVIDIA_TIMEOUT_SECONDS", "60"))
 
-# Semantic Answer Cache Configurations
-CACHE_COLLECTION_NAME: str = "answer_cache"
-CACHE_DISTANCE_THRESHOLD: float = 0.25
-CACHE_DEDUPLICATION_THRESHOLD: float = 0.08
-CACHE_MAX_RESULTS: int = 1
-
-# Provider Feature Flags
-ENABLE_OLLAMA: bool = os.getenv("ENABLE_OLLAMA", "false").lower() == "true"
-ENABLE_NVIDIA: bool = os.getenv("ENABLE_NVIDIA", "true").lower() == "true"
-
-# Default LLM Provider
-DEFAULT_LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "nvidia" if not ENABLE_OLLAMA else "ollama")
-
-# Ollama Settings
-OLLAMA_URL: str = os.getenv("OLLAMA_URL", "http://localhost:11434")
-OLLAMA_MODEL: str = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
-
-# NVIDIA NIM Settings
-NVIDIA_API_KEY: str = os.getenv("NVIDIA_API_KEY", "").strip()
-NVIDIA_MODEL: str = os.getenv("NVIDIA_MODEL", "meta/llama-3.3-70b-instruct")
-NVIDIA_BASE_URL: str = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
-
-
-def mask_key(key: str) -> str:
-    """Mask key keeping only first 4 and last 4 characters visible."""
-    if not key:
-        return "❌ NOT SET (Empty)"
-    if len(key) <= 8:
-        return f"{key[:2]}...{key[-2:]} (Length: {len(key)})"
-    return f"{key[:4]}...{key[-4:]}"
-
-
-# Startup Diagnostics Log
-print(f"ℹ️ [CONFIG] Active LLM Provider: {DEFAULT_LLM_PROVIDER}")
-print(f"ℹ️ [CONFIG] Enable Ollama: {ENABLE_OLLAMA}")
-print(f"ℹ️ [CONFIG] Enable NVIDIA: {ENABLE_NVIDIA}")
-print(f"ℹ️ [CONFIG] NVIDIA Model: {NVIDIA_MODEL}")
-print(f"ℹ️ [CONFIG] NVIDIA API Key: {mask_key(NVIDIA_API_KEY)}")
-
-if ENABLE_NVIDIA and not NVIDIA_API_KEY:
-    print(
-        "\n"
-        "======================================================================\n"
-        "⚠️ [DIAGNOSTIC NOTICE] NVIDIA_API_KEY is missing or empty in backend/.env\n"
-        "   File path: " + str(ENV_FILE.resolve()) + "\n"
-        "   Reason: Line 11 in backend/.env currently reads: 'NVIDIA_API_KEY='\n"
-        "   To fix: Paste your key from build.nvidia.com in backend/.env:\n"
-        "   NVIDIA_API_KEY=nvapi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
-        "======================================================================\n"
-    )
+# RAG settings. A smaller context keeps latency and NIM cost predictable.
+CHROMA_COLLECTION = "company_knowledge"
+CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "900"))
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
+RETRIEVAL_LIMIT = int(os.getenv("RETRIEVAL_LIMIT", "4"))
+MAX_CONTEXT_CHARACTERS = int(os.getenv("MAX_CONTEXT_CHARACTERS", "7000"))

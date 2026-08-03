@@ -1,92 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI FAQ Assistant | K8ight Web Services</title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/light.css" id="theme-style">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ask questions about our company and request a consultation.">
+  <title>Company FAQ Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Relative paths work both through FastAPI and a simple local static server. -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-<div class="app">
-
+  <main class="app-shell">
     <header class="topbar">
-
-        <div class="brand">
-            <div class="logo">🤖</div>
-            <div>
-                <h2>AI Assistant</h2>
-                <p>K8ight Web Services Knowledge Base</p>
-            </div>
-        </div>
-
-        <!-- Model Selector Control (Provider hidden) -->
-        <div class="controls">
-            <div class="select-group">
-                <label for="modelSelect"><i class="fa-solid fa-microchip"></i> Model</label>
-                <select id="modelSelect" class="dropdown">
-                    <option value="qwen2.5:3b">Loading Models...</option>
-                </select>
-            </div>
-
-            <button id="themeToggle" title="Toggle theme">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-
+      <a class="brand" href="/" aria-label="Company FAQ Assistant home">
+        <span class="brand-mark" aria-hidden="true">AI</span>
+        <span><strong>K8ight AI Chat Bot Assistant</strong><small>Answers from our knowledge base</small></span>
+      </a>
+      <button class="button button-secondary" id="openLeadForm" type="button">Talk to us</button>
     </header>
 
-
-    <main id="chatBox" class="chat-box">
-
-        <div class="welcome">
-
-            <div class="welcome-logo">
-                🤖
-            </div>
-
-            <h1>Welcome</h1>
-
-            <p>
-                Ask me anything about our company, services, team, portfolio, or technology stack.
-            </p>
-
+    <section class="chat" aria-label="Company FAQ chat">
+      <div id="messages" class="messages" aria-live="polite">
+        <div class="welcome-message">
+          <h1>Hello, I am K8ight AI Chat Bot Assistant.</h1>
+          <p>Ask me about K8ight services, team, portfolio, or technology.</p>
         </div>
+      </div>
+      <form id="chatForm" class="chat-form">
+        <label class="sr-only" for="message">Your question</label>
+        <textarea id="message" name="message" maxlength="2000" rows="1" placeholder="Ask a question…" required></textarea>
+        <button class="button button-primary" id="sendButton" type="submit">Send</button>
+      </form>
+    </section>
+  </main>
 
-    </main>
-
-
-    <footer class="input-area">
-
-        <textarea
-            id="messageInput"
-            rows="1"
-            placeholder="Type your message..."></textarea>
-
-        <button id="sendBtn">
-
-            <i class="fa-solid fa-paper-plane"></i>
-
-        </button>
-
-    </footer>
-
-</div>
-
-<script src="js/theme.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/api.js"></script>
-<script src="js/chat.js"></script>
-
+  <dialog id="leadDialog" aria-labelledby="leadTitle">
+    <form id="leadForm" class="lead-form">
+      <div class="dialog-header"><h2 id="leadTitle">Let’s talk</h2><button class="close" type="button" id="closeLeadForm" aria-label="Close">×</button></div>
+      <p>Tell us a little about yourself and we’ll follow up.</p>
+      <label>Name<input name="name" minlength="2" maxlength="120" autocomplete="name" required></label>
+      <label>Email<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+      <label>Company <span>(optional)</span><input name="company" maxlength="160" autocomplete="organization"></label>
+      <label>How can we help? <span>(optional)</span><textarea name="message" maxlength="2000" rows="4"></textarea></label>
+      <p class="form-status" id="leadStatus" aria-live="polite"></p>
+      <button class="button button-primary" id="leadSubmit" type="submit">Request a consultation</button>
+    </form>
+  </dialog>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

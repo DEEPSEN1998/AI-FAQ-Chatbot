@@ -1,0 +1,176 @@
+K8IGHT WEB SERVICES RAG OPTIMIZED KNOWLEDGE BASE
+==================================================
+
+SECTION: COMPANY INFORMATION
+
+Company Name: K8ight Web Services Website: https://k8ight.com/ Founded:
+2016
+
+Industry: - Web Hosting - Cloud Infrastructure - Website Development -
+Custom Software Development - Business Automation - IT Solutions -
+Artificial Intelligence Solutions
+
+Head Office: 4 No. Keshabpally, Ashoknagar-Kalyangarh, North 24
+Parganas, West Bengal - 743222, India
+
+Office Phone: +91 97355 27950
+
+==================================================
+
+SECTION: COMPANY OVERVIEW
+
+K8ight Web Services is a technology company specializing in cloud
+hosting, VPS hosting, website development, enterprise software,
+AI-powered applications, business automation, SEO, server
+administration, deployment, maintenance, and digital transformation.
+
+==================================================
+
+SECTION: CORE SERVICES
+
+-   Cloud Hosting
+-   VPS Hosting
+-   Dedicated Linux Servers
+-   Domain Management
+-   Website Design
+-   Full Stack Web Development
+-   Custom Web Applications
+-   CRM Development
+-   ERP Solutions
+-   Business Automation
+-   AI Chatbot Development
+-   Generative AI Solutions
+-   SEO Services
+-   Technical Support
+-   Server Administration
+
+==================================================
+
+SECTION: TECHNOLOGY STACK
+
+Frontend: - HTML5 - CSS3 - Bootstrap - W3.CSS - JavaScript - jQuery
+
+Backend: - PHP - ASP.NET - VBScript - Java - Kotlin - Python
+
+Frameworks: - FastAPI - Flask - React - Next.js
+
+Artificial Intelligence: - Machine Learning - Deep Learning - NLP -
+Computer Vision - Generative AI - Prompt Engineering - Local LLM
+Deployment - Ollama - RAG - LangChain - LangGraph
+
+Databases: - MySQL - ChromaDB - Pinecone - MongoDB
+
+Infrastructure: - Linux - Nginx - Apache - VPS - Cloud Servers - Docker
+
+Other Technologies: - REST API - Responsive Web Design - Website
+Security - SEO Optimization - Git - GitHub
+
+==================================================
+
+SECTION: LEADERSHIP TEAM
+
+Name: Sounak Kar
+
+Role: - Founder - CEO - Senior Full Stack Developer - SEO Specialist -
+Linux Server Administrator
+
+Technical Expertise: PHP, ASP.NET, VBScript, Java, Kotlin, JavaScript,
+MySQL, Linux, Nginx, Cloud Hosting, Server Administration, Website
+Architecture, Performance Optimization, Business Software Development.
+
+==================================================
+
+SECTION: DEVELOPMENT TEAM
+
+Name: Deep Sen
+
+Role: - AI Engineer - Full Stack Web Developer
+
+Skills: Programming: - Python - PHP - JavaScript - TypeScript
+
+AI: - Machine Learning - Deep Learning - NLP - Computer Vision -
+Generative AI - Prompt Engineering - RAG - LangChain - LangGraph -
+Ollama
+
+Frameworks: - FastAPI - Flask - React - Next.js
+
+Databases: - MySQL - ChromaDB - Pinecone - MongoDB
+
+Other Skills: - Docker - Linux - Nginx - Git - API Integration - AI
+Chatbot Development - Vector Databases
+
+Responsibilities: - AI Chatbot Development - Full Stack Development -
+Backend Development - API Development - Database Design - AI Automation
+
+==================================================
+
+SECTION: PORTFOLIO
+
+Project Name: Kolkata Service Center Website:
+https://kolkataservicecenter.co.in/ Description: Multi-brand appliance
+repair platform with booking, pricing, SEO and service management.
+
+Project Name: Bengal Appliances Website: https://bengal-appliances.com/
+Description: Appliance repair website with dynamic pricing and booking.
+
+Project Name: Pandey Coaching Institute Website:
+https://www.pandeycoaching.in/ Description: Educational institute
+website with course and admission management.
+
+Project Name: RideOM Website: https://rideom.com/ Description:
+Responsive business platform with scalable architecture.
+
+Project Name: GoAhead AI Website: https://www.goahead-ai.com/
+Description: Artificial Intelligence platform for AI solutions and
+automation.
+
+Project Name: LJBS Money Website: https://ljbsmoney.com/ Description:
+Financial services platform with secure digital solutions.
+
+Project Name: Satin Rose Salon & Spa Website:
+https://satinrosesalonspa.in/ Description: Salon and spa website with
+appointment booking and gallery.
+
+==================================================
+
+SECTION: COMPANY STRENGTHS
+
+-   Affordable Hosting
+-   VPS Infrastructure
+-   Cloud Hosting
+-   Full Stack Development
+-   AI Integration
+-   Business Automation
+-   CRM & ERP
+-   Enterprise Applications
+-   Technical Support
+
+==================================================
+
+SECTION: MISSION
+
+Deliver reliable, secure, scalable and affordable digital solutions
+through technology and automation.
+
+==================================================
+
+SECTION: VISION
+
+Become one of India’s trusted web hosting and software development
+companies.
+
+==================================================
+
+SECTION: CONTACT INFORMATION
+
+Company: K8ight Web Services Website: https://k8ight.com/ Office Phone:
++91 97355 27950 Address: 4 No. Keshabpally, Ashoknagar-Kalyangarh, North
+24 Parganas, West Bengal - 743222, India
+
+==================================================
+
+SECTION: FAQ KEYWORDS
+
+Founder CEO Sounak Kar Deep Sen Services Portfolio Hosting Cloud VPS AI
+Machine Learning RAG LangChain FastAPI SEO CRM ERP Office Phone Website
+Contact

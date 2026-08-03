@@ -10,6 +10,11 @@ venv/
 # Environment Variables
 .env
 
+# Generated runtime data (Chroma vectors and SQLite lead database)
+data/*
+!data/.gitkeep
+vector_db/
+
 # VS Code
 .vscode/
 
